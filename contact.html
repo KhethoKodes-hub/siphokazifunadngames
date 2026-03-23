@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Contact Us | Siphokazi's Fun & Games</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['Bebas Neue', 'Impact', 'sans-serif'],
+            heading: ['DM Serif Display', 'Georgia', 'serif'],
+            body: ['Outfit', 'system-ui', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    :root {
+      --red: #DC1F2E;
+      --red-light: #FF4D5A;
+      --blue: #1A3FA8;
+      --blue-light: #3D63E0;
+      --navy: #050E2D;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Outfit', system-ui, sans-serif;
+      background: var(--navy);
+      color: white;
+      overflow-x: hidden;
+    }
+
+    /* ── Cursor ── */
+    body { cursor: none; }
+    #cursor {
+      width: 14px; height: 14px;
+      background: var(--red); border-radius: 50%;
+      position: fixed; top: 0; left: 0;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%,-50%);
+      transition: width .2s, height .2s, background .2s;
+      mix-blend-mode: screen;
+    }
+    #cursor-ring {
+      width: 38px; height: 38px;
+      border: 2px solid rgba(220,31,46,.5); border-radius: 50%;
+      position: fixed; top: 0; left: 0;
+      pointer-events: none; z-index: 9998;
+      transform: translate(-50%,-50%);
+      transition: width .25s, height .25s, border-color .2s;
+    }
+    @media (max-width: 640px) {
+      body { cursor: auto; }
+      #cursor, #cursor-ring { display: none; }
+    }
+
+    /* ── Glass ── */
+    .glass {
+      background: rgba(255,255,255,.06);
+      backdrop-filter: blur(20px) saturate(1.5);
+      -webkit-backdrop-filter: blur(20px) saturate(1.5);
+      border: 1px solid rgba(255,255,255,.12);
+    }
+    .glass-dark {
+      background: rgba(5,14,45,.65);
+      backdrop-filter: blur(24px) saturate(1.8);
+      -webkit-backdrop-filter: blur(24px) saturate(1.8);
+      border: 1px solid rgba(255,255,255,.08);
+    }
+    .glass-card {
+      background: rgba(255,255,255,.04);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,.1);
+      transition: all .45s cubic-bezier(.23,1,.32,1);
+    }
+    .glass-card:hover {
+      background: rgba(255,255,255,.09);
+      border-color: rgba(220,31,46,.5);
+      transform: translateY(-8px);
+      box-shadow: 0 30px 60px rgba(220,31,46,.2), 0 0 0 1px rgba(220,31,46,.2);
+    }
+
+    /* ── Hero BG ── */
+    .hero-bg {
+      background:
+        linear-gradient(180deg, rgba(5,14,45,.3) 0%, rgba(5,14,45,.65) 55%, rgba(5,14,45,1) 100%),
+        linear-gradient(135deg, rgba(220,31,46,.2) 0%, transparent 55%),
+        url('https://images.unsplash.com/photo-1527529482837-4698179dc6ce?w=1800&q=80') center/cover no-repeat;
+      min-height: 72vh;
+    }
+
+    /* ── Map BG ── */
+    .map-section-bg {
+      background:
+        linear-gradient(135deg, rgba(5,14,45,.97) 0%, rgba(26,63,168,.18) 100%),
+        url('https://images.unsplash.com/photo-1524661135-423995f22d0b?w=1600&q=80') center/cover;
+    }
+
+    /* ── Nav ── */
+    nav { transition: all .4s ease; }
+    nav.scrolled {
+      background: rgba(5,14,45,.92) !important;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 4px 30px rgba(0,0,0,.4);
+    }
+
+    /* ── Typography ── */
+    .hero-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(4rem, 11vw, 10rem);
+      line-height: .9;
+      letter-spacing: .02em;
+    }
+
+    /* ── Gradient text ── */
+    .grad-text {
+      background: linear-gradient(135deg, #FF4D5A 0%, #fff 40%, #3D63E0 100%);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .grad-text-red {
+      background: linear-gradient(90deg, #FF4D5A, #DC1F2E);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .grad-text-blue {
+      background: linear-gradient(90deg, #3D63E0, #1A3FA8);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+
+    /* ── Color line ── */
+    .color-line {
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--red), var(--blue), var(--red), transparent);
+    }
+
+    /* ── Section label ── */
+    .section-label {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700; font-size: .7rem;
+      letter-spacing: .3em; text-transform: uppercase;
+    }
+
+    /* ── Grid BG ── */
+    .grid-bg {
+      background-image:
+        linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+
+    /* ── Glow border ── */
+    .glow-border {
+      box-shadow: 0 0 0 1px rgba(220,31,46,.3), 0 0 30px rgba(220,31,46,.12);
+      transition: box-shadow .3s;
+    }
+    .glow-border:hover {
+      box-shadow: 0 0 0 1px rgba(220,31,46,.7), 0 0 50px rgba(220,31,46,.3);
+    }
+
+    /* ── Buttons ── */
+    .btn-primary {
+      background: linear-gradient(135deg, var(--red), #FF4D5A);
+      box-shadow: 0 8px 24px rgba(220,31,46,.4);
+      transition: all .3s ease;
+    }
+    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(220,31,46,.5); }
+    .btn-outline {
+      border: 2px solid rgba(255,255,255,.3);
+      transition: all .3s ease; backdrop-filter: blur(10px);
+    }
+    .btn-outline:hover { border-color: white; background: rgba(255,255,255,.1); transform: translateY(-3px); }
+
+    /* ── Contact form inputs ── */
+    .form-input {
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.12);
+      backdrop-filter: blur(10px);
+      transition: all .3s ease;
+      color: white;
+      outline: none;
+      width: 100%;
+      border-radius: 0.875rem;
+      padding: 0.875rem 1.25rem;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.9rem;
+    }
+    .form-input::placeholder { color: rgba(255,255,255,.35); }
+    .form-input:focus {
+      border-color: rgba(220,31,46,.6);
+      background: rgba(255,255,255,.08);
+      box-shadow: 0 0 0 3px rgba(220,31,46,.15), 0 0 20px rgba(220,31,46,.1);
+    }
+    .form-input:focus + .form-label,
+    .form-input:not(:placeholder-shown) + .form-label {
+      transform: translateY(-28px) scale(0.8);
+      color: rgba(220,31,46,.9);
+    }
+    select.form-input option { background: #050E2D; color: white; }
+    textarea.form-input { resize: none; min-height: 130px; }
+
+    /* Form label float */
+    .form-group { position: relative; }
+    .form-label {
+      position: absolute;
+      top: 0.875rem; left: 1.25rem;
+      font-size: 0.9rem; color: rgba(255,255,255,.35);
+      pointer-events: none;
+      transition: all .25s ease;
+      transform-origin: left;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    /* ── Contact info card ── */
+    .info-card {
+      background: rgba(255,255,255,.04);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,.1);
+      transition: all .4s cubic-bezier(.23,1,.32,1);
+    }
+    .info-card:hover {
+      background: rgba(255,255,255,.08);
+      transform: translateX(8px);
+      border-color: rgba(220,31,46,.4);
+    }
+    .info-card.blue:hover {
+      border-color: rgba(26,63,168,.5);
+    }
+
+    /* ── Floating badges ── */
+    .float-badge { animation: floatBadge 4s ease-in-out infinite; }
+    .float-badge:nth-child(2) { animation-delay: 1.4s; }
+    .float-badge:nth-child(3) { animation-delay: 2.8s; }
+    @keyframes floatBadge {
+      0%,100% { transform: translateY(0) rotate(-2deg); }
+      50% { transform: translateY(-14px) rotate(2deg); }
+    }
+
+    /* ── Scroll reveal ── */
+    .reveal { opacity: 0; transform: translateY(40px); transition: opacity .8s ease, transform .8s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-left { opacity: 0; transform: translateX(-40px); transition: opacity .8s ease, transform .8s ease; }
+    .reveal-left.visible { opacity: 1; transform: translateX(0); }
+    .reveal-right { opacity: 0; transform: translateX(40px); transition: opacity .8s ease, transform .8s ease; }
+    .reveal-right.visible { opacity: 1; transform: translateX(0); }
+    .d1{transition-delay:.1s} .d2{transition-delay:.2s} .d3{transition-delay:.3s}
+    .d4{transition-delay:.4s} .d5{transition-delay:.5s} .d6{transition-delay:.6s}
+
+    /* ── Mobile menu ── */
+    #mobile-menu { transition: transform .5s cubic-bezier(.23,1,.32,1); }
+
+    /* ── Noise ── */
+    .noise::after {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 1;
+    }
+
+    /* ── Success toast ── */
+    #toast {
+      position: fixed; bottom: 2rem; right: 2rem; z-index: 9999;
+      background: linear-gradient(135deg, rgba(5,14,45,.95), rgba(26,63,168,.6));
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(220,31,46,.4);
+      border-radius: 1rem; padding: 1rem 1.5rem;
+      display: flex; align-items: center; gap: .75rem;
+      transform: translateY(100px); opacity: 0;
+      transition: all .4s cubic-bezier(.23,1,.32,1);
+      box-shadow: 0 20px 40px rgba(220,31,46,.2);
+    }
+    #toast.show { transform: translateY(0); opacity: 1; }
+
+    /* ── FAQ accordion ── */
+    .faq-item { border-bottom: 1px solid rgba(255,255,255,.07); }
+    .faq-btn { width: 100%; text-align: left; display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 0; cursor: pointer; background: none; border: none; color: white; font-family: 'Outfit', sans-serif; font-size: .95rem; font-weight: 500; transition: color .2s; }
+    .faq-btn:hover { color: rgba(220,31,46,.9); }
+    .faq-icon { width: 24px; height: 24px; border-radius: 50%; background: rgba(220,31,46,.15); border: 1px solid rgba(220,31,46,.3); display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all .3s; font-size: .75rem; }
+    .faq-item.open .faq-icon { background: var(--red); transform: rotate(45deg); }
+    .faq-body { max-height: 0; overflow: hidden; transition: max-height .4s ease, padding .3s; }
+    .faq-item.open .faq-body { max-height: 300px; padding-bottom: 1.25rem; }
+    .faq-body p { color: rgba(255,255,255,.55); font-size: .875rem; line-height: 1.8; }
+
+    /* ── Map embed placeholder ── */
+    .map-frame {
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 1.5rem; overflow: hidden;
+      position: relative;
+    }
+    .map-frame iframe { display: block; width: 100%; height: 100%; border: 0; filter: invert(90%) hue-rotate(180deg) saturate(0.8); opacity: 0.85; }
+
+    /* ── Pulse dot ── */
+    .pulse-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: #22c55e;
+      position: relative;
+    }
+    .pulse-dot::after {
+      content: '';
+      position: absolute; inset: -4px;
+      border-radius: 50%;
+      border: 2px solid rgba(34,197,94,.4);
+      animation: pulseDot 1.5s ease-in-out infinite;
+    }
+    @keyframes pulseDot {
+      0%,100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0; transform: scale(1.8); }
+    }
+
+    /* ── Scrollbar ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--navy); }
+    ::-webkit-scrollbar-thumb { background: var(--red); border-radius: 3px; }
+  </style>
+</head>
+<body>
+
+  <div id="cursor"></div>
+  <div id="cursor-ring"></div>
+
+  <!-- Toast notification -->
+  <div id="toast">
+    <div class="text-xl">✅</div>
+    <div>
+      <p class="font-semibold text-white text-sm">Message Sent!</p>
+      <p class="text-white/50 text-xs">We'll get back to you within 24 hours.</p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════
+       NAVIGATION
+  ══════════════════════════════════ -->
+  <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 py-5 px-6 md:px-12 flex items-center justify-between">
+    <a href="index.html" class="flex items-center gap-3 group">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-red-500 to-red-800 flex items-center justify-center font-display text-lg text-white shadow-lg group-hover:scale-110 transition-transform">S</div>
+      <div class="leading-tight">
+        <div class="font-display text-lg tracking-widest text-white">SIPHOKAZI'S</div>
+        <div class="text-xs text-red-400 tracking-[.3em] -mt-1">FUN & GAMES</div>
+      </div>
+    </a>
+
+    <ul class="hidden md:flex items-center gap-8 text-sm font-medium text-white/70">
+      <li><a href="index.html" class="hover:text-white transition-colors relative group">Home<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-red-500 group-hover:w-full transition-all duration-300"></span></a></li>
+      <li><a href="about.html" class="hover:text-white transition-colors relative group">About<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-red-500 group-hover:w-full transition-all duration-300"></span></a></li>
+      <li><a href="services.html" class="hover:text-white transition-colors relative group">Services<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-red-500 group-hover:w-full transition-all duration-300"></span></a></li>
+      <li><a href="contact.html" class="text-white relative">Contact<span class="absolute -bottom-1 left-0 w-full h-0.5 bg-red-500"></span></a></li>
+    </ul>
+
+    <a href="#booking-form" class="btn-primary hidden md:inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-white font-semibold text-sm">
+      Book Now
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+    </a>
+
+    <button id="menu-btn" class="md:hidden w-10 h-10 glass rounded-xl flex flex-col items-center justify-center gap-1.5 p-2">
+      <span class="w-5 h-0.5 bg-white transition-all origin-center" id="m1"></span>
+      <span class="w-5 h-0.5 bg-white transition-all" id="m2"></span>
+      <span class="w-3 h-0.5 bg-white transition-all ml-auto origin-center" id="m3"></span>
+    </button>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="fixed inset-0 z-40 glass-dark flex flex-col items-center justify-center gap-8 text-2xl font-display tracking-widest translate-x-full">
+    <a href="index.html" class="mobile-link hover:text-red-400 transition-colors">Home</a>
+    <a href="about.html" class="mobile-link hover:text-red-400 transition-colors">About</a>
+    <a href="services.html" class="mobile-link hover:text-red-400 transition-colors">Services</a>
+    <a href="contact.html" class="mobile-link text-red-400">Contact</a>
+    <a href="contact.html" class="btn-primary px-8 py-3 rounded-full text-white font-body text-base font-semibold mt-4">Book Now →</a>
+  </div>
+
+  
+  <section class="hero-bg relative flex flex-col justify-end pb-20 md:pb-28 noise">
+    <div class="absolute inset-0 bg-gradient-to-br from-navy via-transparent to-transparent opacity-80 pointer-events-none"></div>
+    <div class="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-transparent via-red-600 to-transparent opacity-60 pointer-events-none"></div>
+
+    <!-- Floating badges -->
+    <div class="absolute top-1/3 right-6 md:right-24 flex flex-col gap-4 pointer-events-none z-10">
+      <div class="float-badge glass rounded-2xl px-4 py-3 text-center">
+        <div class="text-2xl mb-1">📞</div>
+        <div class="text-xs font-bold text-white/90 tracking-widest">CALL US</div>
+      </div>
+      <div class="float-badge glass rounded-2xl px-4 py-3 text-center">
+        <div class="text-2xl mb-1">✉️</div>
+        <div class="text-xs font-bold text-white/90 tracking-widest">EMAIL</div>
+      </div>
+      <div class="float-badge glass rounded-2xl px-4 py-3 text-center">
+        <div class="text-2xl mb-1">📍</div>
+        <div class="text-xs font-bold text-white/90 tracking-widest">VISIT US</div>
+      </div>
+    </div>
+
+    <div class="relative z-10 container mx-auto px-6 md:px-12">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-8 h-px bg-red-500"></div>
+        <span class="section-label text-red-400">Let's Create Magic Together</span>
+      </div>
+
+      <h1 class="hero-title text-white mb-6">
+        <span class="block text-white/40 text-3xl md:text-4xl font-display tracking-[.4em] mb-2">GET IN TOUCH</span>
+        <span class="block grad-text">CONTACT</span>
+        <span class="block text-white" style="text-shadow:2px 2px 0 rgba(220,31,46,.4)">US TODAY</span>
+      </h1>
+
+      <p class="font-heading italic text-white/70 mb-10 max-w-xl text-xl md:text-2xl">
+        Ready to plan your next unforgettable event? We'd love to hear from you — free consultations available.
+      </p>
+
+      <!-- Quick contact pills -->
+      <div class="flex flex-wrap gap-4">
+        <a href="tel:+27000000000" class="glass rounded-2xl px-5 py-3 flex items-center gap-3 hover:border-red-500 transition-colors glow-border group">
+          <span class="text-xl">📞</span>
+          <div>
+            <div class="text-xs text-white/40 tracking-widest uppercase">Call Direct</div>
+            <div class="font-display text-base tracking-wider text-white group-hover:text-red-400 transition-colors">+27 000 000 0000</div>
+          </div>
+        </a>
+        <a href="mailto:info@siphokazi.co.za" class="glass rounded-2xl px-5 py-3 flex items-center gap-3 hover:border-blue-500 transition-colors group">
+          <span class="text-xl">✉️</span>
+          <div>
+            <div class="text-xs text-white/40 tracking-widest uppercase">Email Us</div>
+            <div class="font-display text-base tracking-wider text-white group-hover:text-blue-400 transition-colors">info@siphokazi.co.za</div>
+          </div>
+        </a>
+        <div class="glass rounded-2xl px-5 py-3 flex items-center gap-3">
+          <div class="pulse-dot"></div>
+          <div>
+            <div class="text-xs text-white/40 tracking-widest uppercase">Status</div>
+            <div class="font-display text-base tracking-wider text-white">NOW TAKING BOOKINGS</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-10 animate-bounce">
+      <div class="text-xs text-white/40 tracking-widest">SCROLL</div>
+      <div class="w-px h-8 bg-gradient-to-b from-white/40 to-transparent"></div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════
+       CONTACT INFO CARDS ROW
+  ══════════════════════════════════ -->
+  <section class="py-16 relative grid-bg">
+    <div class="absolute inset-0 bg-gradient-to-b from-navy to-transparent pointer-events-none"></div>
+    <div class="container mx-auto px-6 md:px-12 relative z-10">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+
+        <!-- Phone -->
+        <div class="info-card rounded-2xl p-6 reveal d1">
+          <div class="w-12 h-12 rounded-xl flex items-center justify-center text-2xl mb-5" style="background:rgba(220,31,46,.15);border:1px solid rgba(220,31,46,.3)">📞</div>
+          <div class="section-label text-red-400 mb-2">Phone</div>
+          <p class="font-display text-lg tracking-wider text-white mb-1">+27 000 000 0000</p>
+          <p class="text-white/40 text-xs">Mon–Sat · 8am – 6pm</p>
+        </div>
+
+        <!-- WhatsApp -->
+        <div class="info-card rounded-2xl p-6 reveal d2">
+          <div class="w-12 h-12 rounded-xl flex items-center justify-center text-2xl mb-5" style="background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.3)">💬</div>
+          <div class="section-label text-green-400 mb-2">WhatsApp</div>
+          <p class="font-display text-lg tracking-wider text-white mb-1">+27 000 000 0000</p>
+          <p class="text-white/40 text-xs">Quick replies guaranteed</p>
+        </div>
+
+        <!-- Email -->
+        <div class="info-card blue rounded-2xl p-6 reveal d3">
+          <div class="w-12 h-12 rounded-xl flex items-center justify-center text-2xl mb-5" style="background:rgba(26,63,168,.2);border:1px solid rgba(26,63,168,.4)">✉️</div>
+          <div class="section-label text-blue-400 mb-2">Email</div>
+          <p class="font-display text-lg tracking-wider text-white mb-1">info@siphokazi.co.za</p>
+          <p class="text-white/40 text-xs">24-hour response time</p>
+        </div>
+
+        <!-- Location -->
+        <div class="info-card rounded-2xl p-6 reveal d4">
+          <div class="w-12 h-12 rounded-xl flex items-center justify-center text-2xl mb-5" style="background:rgba(220,31,46,.15);border:1px solid rgba(220,31,46,.3)">📍</div>
+          <div class="section-label text-red-400 mb-2">Location</div>
+          <p class="font-display text-lg tracking-wider text-white mb-1">Olifantshoek, NC</p>
+          <p class="text-white/40 text-xs">Northern Cape, South Africa</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════
+       BOOKING FORM + SIDE INFO
+  ══════════════════════════════════ -->
+  <section id="booking-form" class="py-24 md:py-32 relative overflow-hidden">
+    <div class="absolute -left-32 top-1/3 w-80 h-80 rounded-full pointer-events-none" style="background:radial-gradient(circle,rgba(220,31,46,.12),transparent 70%)"></div>
+    <div class="absolute -right-24 bottom-1/4 w-72 h-72 rounded-full pointer-events-none" style="background:radial-gradient(circle,rgba(26,63,168,.12),transparent 70%)"></div>
+
+    <div class="container mx-auto px-6 md:px-12 relative z-10">
+
+      <div class="text-center mb-16 reveal">
+        <div class="flex items-center justify-center gap-3 mb-4">
+          <div class="w-8 h-px bg-red-500"></div>
+          <span class="section-label text-red-400">Book Your Event</span>
+          <div class="w-8 h-px bg-red-500"></div>
+        </div>
+        <h2 class="font-display text-5xl md:text-7xl tracking-wider">
+          <span class="grad-text">SEND US</span> <span class="text-white">A MESSAGE</span>
+        </h2>
+      </div>
+
+      <div class="grid lg:grid-cols-5 gap-10 max-w-6xl mx-auto">
+
+        <!-- LEFT: Form (3 cols) -->
+        <div class="lg:col-span-3 reveal-left">
+          <div class="glass-dark rounded-3xl p-8 md:p-10 glow-border">
+            <form id="contact-form" class="space-y-6" novalidate>
+
+              <!-- Row 1: Name + Phone -->
+              <div class="grid sm:grid-cols-2 gap-5">
+                <div class="form-group">
+                  <input type="text" id="name" name="name" class="form-input" placeholder=" " required>
+                  <label for="name" class="form-label">Full Name *</label>
+                </div>
+                <div class="form-group">
+                  <input type="tel" id="phone" name="phone" class="form-input" placeholder=" " required>
+                  <label for="phone" class="form-label">Phone Number *</label>
+                </div>
+              </div>
+
+              <!-- Row 2: Email -->
+              <div class="form-group">
+                <input type="email" id="email" name="email" class="form-input" placeholder=" " required>
+                <label for="email" class="form-label">Email Address *</label>
+              </div>
+
+              <!-- Row 3: Service + Event Type -->
+              <div class="grid sm:grid-cols-2 gap-5">
+                <div class="form-group">
+                  <select id="service" name="service" class="form-input" required>
+                    <option value="" disabled selected></option>
+                    <option value="castles">Jumping Castles</option>
+                    <option value="tents">Party Tents</option>
+                    <option value="pools">Swimming Pools</option>
+                    <option value="chairs">Chairs &amp; Tables</option>
+                    <option value="decor">Décor &amp; Styling</option>
+                    <option value="catering">Catering</option>
+                    <option value="full">Full Event Package</option>
+                    <option value="custom">Custom / Multiple</option>
+                  </select>
+                  <label for="service" class="form-label">Service Required *</label>
+                </div>
+                <div class="form-group">
+                  <select id="event-type" name="event_type" class="form-input">
+                    <option value="" disabled selected></option>
+                    <option>Birthday Party</option>
+                    <option>Graduation</option>
+                    <option>Wedding</option>
+                    <option>Funeral</option>
+                    <option>Corporate Event</option>
+                    <option>Church Event</option>
+                    <option>Community Event</option>
+                    <option>Other</option>
+                  </select>
+                  <label for="event-type" class="form-label">Event Type</label>
+                </div>
+              </div>
+
+              <!-- Row 4: Date + Guest count -->
+              <div class="grid sm:grid-cols-2 gap-5">
+                <div class="form-group">
+                  <input type="date" id="event-date" name="event_date" class="form-input" style="color-scheme: dark;">
+                  <label for="event-date" class="form-label" style="transform: translateY(-28px) scale(0.8); color: rgba(255,255,255,.35);">Event Date</label>
+                </div>
+                <div class="form-group">
+                  <input type="number" id="guests" name="guests" class="form-input" placeholder=" " min="1">
+                  <label for="guests" class="form-label">Estimated Guests</label>
+                </div>
+              </div>
+
+              <!-- Row 5: Message -->
+              <div class="form-group">
+                <textarea id="message" name="message" class="form-input" placeholder=" "></textarea>
+                <label for="message" class="form-label">Tell us about your event...</label>
+              </div>
+
+              <!-- Package quick-select chips -->
+              <div>
+                <p class="text-xs text-white/40 tracking-widest uppercase mb-3">Quick Package Interest</p>
+                <div class="flex flex-wrap gap-2" id="pkg-chips">
+                  <button type="button" class="pkg-chip glass rounded-full px-4 py-1.5 text-xs text-white/70 hover:text-white hover:border-red-500 transition-all" data-val="starter">🎉 Kids Starter</button>
+                  <button type="button" class="pkg-chip glass rounded-full px-4 py-1.5 text-xs text-white/70 hover:text-white hover:border-red-500 transition-all" data-val="deluxe">🎊 Celebration Deluxe</button>
+                  <button type="button" class="pkg-chip glass rounded-full px-4 py-1.5 text-xs text-white/70 hover:text-white hover:border-red-500 transition-all" data-val="ultimate">👑 Ultimate Event</button>
+                  <button type="button" class="pkg-chip glass rounded-full px-4 py-1.5 text-xs text-white/70 hover:text-white hover:border-red-500 transition-all" data-val="custom">✏️ Custom Quote</button>
+                </div>
+                <input type="hidden" id="pkg-selected" name="package">
+              </div>
+
+              <!-- Submit -->
+              <button type="submit" id="submit-btn" class="btn-primary w-full py-4 rounded-2xl text-white font-bold text-base flex items-center justify-center gap-3 group">
+                <span id="btn-text">Send Booking Enquiry</span>
+                <svg id="btn-arrow" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                <svg id="btn-spinner" class="w-5 h-5 animate-spin hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>
+              </button>
+
+              <p class="text-center text-white/30 text-xs">We'll respond within 24 hours · Free consultation included</p>
+            </form>
+          </div>
+        </div>
+
+        <!-- RIGHT: Side info (2 cols) -->
+        <div class="lg:col-span-2 space-y-6 reveal-right">
+
+          <!-- Why Choose Us -->
+          <div class="glass-card rounded-3xl p-7">
+            <h3 class="font-display text-xl tracking-wider text-white mb-5">WHY BOOK WITH US</h3>
+            <div class="space-y-4">
+              <div class="flex items-start gap-3">
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center text-sm flex-shrink-0 mt-0.5" style="background:rgba(220,31,46,.15);border:1px solid rgba(220,31,46,.3)">✓</div>
+                <div>
+                  <p class="text-white font-semibold text-sm">Free Consultation</p>
+                  <p class="text-white/45 text-xs leading-relaxed mt-0.5">No obligation — we'll discuss your needs and tailor a package.</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-3">
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center text-sm flex-shrink-0 mt-0.5" style="background:rgba(26,63,168,.2);border:1px solid rgba(26,63,168,.4)">✓</div>
+                <div>
+                  <p class="text-white font-semibold text-sm">Safety Certified Equipment</p>
+                  <p class="text-white/45 text-xs leading-relaxed mt-0.5">All rentals are inspected, sanitised, and safety compliant.</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-3">
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center text-sm flex-shrink-0 mt-0.5" style="background:rgba(220,31,46,.15);border:1px solid rgba(220,31,46,.3)">✓</div>
+                <div>
+                  <p class="text-white font-semibold text-sm">Delivery & Setup Included</p>
+                  <p class="text-white/45 text-xs leading-relaxed mt-0.5">We handle everything from arrival to collection.</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-3">
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center text-sm flex-shrink-0 mt-0.5" style="background:rgba(26,63,168,.2);border:1px solid rgba(26,63,168,.4)">✓</div>
+                <div>
+                  <p class="text-white font-semibold text-sm">Flexible Packages</p>
+                  <p class="text-white/45 text-xs leading-relaxed mt-0.5">From small birthdays to large community events — we scale to you.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Business Hours -->
+          <div class="glass-card rounded-3xl p-7">
+            <h3 class="font-display text-xl tracking-wider text-white mb-5">BUSINESS HOURS</h3>
+            <div class="space-y-2.5">
+              <div class="flex justify-between items-center">
+                <span class="text-white/50 text-sm">Monday – Friday</span>
+                <span class="text-white text-sm font-semibold">8:00 – 18:00</span>
+              </div>
+              <div class="color-line rounded-full opacity-30"></div>
+              <div class="flex justify-between items-center">
+                <span class="text-white/50 text-sm">Saturday</span>
+                <span class="text-white text-sm font-semibold">8:00 – 16:00</span>
+              </div>
+              <div class="color-line rounded-full opacity-30"></div>
+              <div class="flex justify-between items-center">
+                <span class="text-white/50 text-sm">Sunday</span>
+                <span class="text-white/40 text-sm">By Appointment</span>
+              </div>
+              <div class="color-line rounded-full opacity-30"></div>
+              <div class="flex justify-between items-center">
+                <span class="text-white/50 text-sm">Public Holidays</span>
+                <span class="text-white/40 text-sm">WhatsApp Only</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Social links -->
+          <div class="glass-card rounded-3xl p-7">
+            <h3 class="font-display text-xl tracking-wider text-white mb-5">FOLLOW US</h3>
+            <div class="grid grid-cols-2 gap-3">
+              <a href="#" class="glass rounded-2xl p-4 flex items-center gap-3 hover:border-blue-500 transition-all group">
+                <div class="text-xl">📘</div>
+                <div>
+                  <p class="text-white text-xs font-semibold group-hover:text-blue-400 transition-colors">Facebook</p>
+                  <p class="text-white/35 text-xs">@SiphokaziFun</p>
+                </div>
+              </a>
+              <a href="#" class="glass rounded-2xl p-4 flex items-center gap-3 hover:border-pink-400 transition-all group">
+                <div class="text-xl">📸</div>
+                <div>
+                  <p class="text-white text-xs font-semibold group-hover:text-pink-400 transition-colors">Instagram</p>
+                  <p class="text-white/35 text-xs">@SiphokaziFun</p>
+                </div>
+              </a>
+              <a href="https://wa.me/27000000000" class="glass rounded-2xl p-4 flex items-center gap-3 hover:border-green-400 transition-all group col-span-2">
+                <div class="text-xl">💬</div>
+                <div>
+                  <p class="text-white text-xs font-semibold group-hover:text-green-400 transition-colors">WhatsApp us directly</p>
+                  <p class="text-white/35 text-xs">Fastest way to get a quote</p>
+                </div>
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════
+       MAP + LOCATION DETAILS
+  ══════════════════════════════════ -->
+  <section class="map-section-bg py-24 md:py-32 relative">
+    <div class="absolute inset-0 bg-gradient-to-r from-navy to-navy/80 pointer-events-none"></div>
+    <div class="container mx-auto px-6 md:px-12 relative z-10">
+
+      <div class="grid lg:grid-cols-2 gap-12 items-center">
+
+        <!-- Left: Map iframe -->
+        <div class="reveal-left">
+          <div class="map-frame h-96 md:h-[450px]">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14248.22977!2d22.7281!3d-27.9475!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1e9f0c0c0c0c0c0c%3A0x0!2sOlifantshoek%2C+Northern+Cape!5e0!3m2!1sen!2sza!4v1700000000000"
+              allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+              title="Siphokazi's Fun & Games - Olifantshoek Location">
+            </iframe>
+          </div>
+          <p class="text-white/30 text-xs mt-3 text-center">📍 Olifantshoek, Northern Cape, South Africa</p>
+        </div>
+
+        <!-- Right: Address details -->
+        <div class="reveal-right space-y-6">
+          <div>
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-8 h-px bg-red-500"></div>
+              <span class="section-label text-red-400">Find Us</span>
+            </div>
+            <h2 class="font-display text-4xl md:text-5xl tracking-wider text-white mb-6 leading-none">
+              BASED IN<br><span class="grad-text">OLIFANTSHOEK</span>
+            </h2>
+            <p class="text-white/55 leading-relaxed mb-8">
+              We are proudly registered and based in Olifantshoek, Northern Cape. We serve the entire Northern Cape region — bringing our event rental services directly to your venue.
+            </p>
+          </div>
+
+          <div class="space-y-4">
+            <div class="info-card rounded-2xl p-5 flex items-center gap-4">
+              <div class="text-2xl flex-shrink-0">📍</div>
+              <div>
+                <p class="text-xs text-white/40 tracking-widest uppercase mb-1">Address</p>
+                <p class="text-white font-semibold text-sm">Olifantshoek, Northern Cape</p>
+                <p class="text-white/50 text-xs">8450, South Africa</p>
+              </div>
+            </div>
+            <div class="info-card rounded-2xl p-5 flex items-center gap-4">
+              <div class="text-2xl flex-shrink-0">🚗</div>
+              <div>
+                <p class="text-xs text-white/40 tracking-widest uppercase mb-1">Service Area</p>
+                <p class="text-white font-semibold text-sm">Entire Northern Cape Region</p>
+                <p class="text-white/50 text-xs">Delivery &amp; setup at your venue</p>
+              </div>
+            </div>
+            <div class="info-card blue rounded-2xl p-5 flex items-center gap-4">
+              <div class="text-2xl flex-shrink-0">🏢</div>
+              <div>
+                <p class="text-xs text-white/40 tracking-widest uppercase mb-1">Registration</p>
+                <p class="text-white font-semibold text-sm">SIPHOKAZIS FUN GAMES PTY LTD</p>
+                <p class="text-white/50 text-xs">Registered South African Company</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════
+       FAQ SECTION
+  ══════════════════════════════════ -->
+  <section class="py-24 md:py-32 relative" style="background:linear-gradient(135deg,var(--navy) 0%,rgba(26,63,168,.12) 100%)">
+    <div class="absolute inset-0 grid-bg opacity-40 pointer-events-none"></div>
+    <div class="container mx-auto px-6 md:px-12 relative z-10">
+
+      <div class="grid lg:grid-cols-2 gap-16 items-start">
+
+        <!-- Left: FAQ Header -->
+        <div class="reveal-left">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-8 h-px bg-red-500"></div>
+            <span class="section-label text-red-400">Frequently Asked</span>
+          </div>
+          <h2 class="font-display text-5xl md:text-6xl tracking-wider text-white mb-6 leading-none">
+            QUICK<br><span class="grad-text">ANSWERS</span>
+          </h2>
+          <p class="text-white/50 leading-relaxed mb-8">
+            Have more questions? Don't hesitate — call, WhatsApp, or fill in the form and we'll get back to you promptly.
+          </p>
+          <a href="#booking-form" class="btn-primary inline-flex items-center gap-2 px-8 py-4 rounded-full text-white font-bold">
+            Still Have Questions? →
+          </a>
+        </div>
+
+        <!-- Right: Accordion -->
+        <div class="reveal-right">
+          <div class="glass-dark rounded-3xl p-8 space-y-0 divide-y divide-white/5">
+
+            <div class="faq-item">
+              <button class="faq-btn">
+                <span>How far in advance should I book?</span>
+                <span class="faq-icon">+</span>
+              </button>
+              <div class="faq-body"><p>We recommend booking at least 1–2 weeks in advance to guarantee availability, especially for weekends and public holidays. For large events, 3–4 weeks ahead is ideal. Same-week bookings are sometimes possible — contact us directly.</p></div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-btn">
+                <span>Do you deliver and set up the equipment?</span>
+                <span class="faq-icon">+</span>
+              </button>
+              <div class="faq-body"><p>Yes! Delivery, professional setup, and collection are included in all our rental packages. Our team will arrive ahead of your event time to ensure everything is perfectly in place and safety-checked before your guests arrive.</p></div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-btn">
+                <span>What areas do you service?</span>
+                <span class="faq-icon">+</span>
+              </button>
+              <div class="faq-body"><p>We are based in Olifantshoek and service the entire Northern Cape region. Travel fees may apply for longer distances — contact us with your location and event date for a tailored quote.</p></div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-btn">
+                <span>Are the jumping castles safe for young children?</span>
+                <span class="faq-icon">+</span>
+              </button>
+              <div class="faq-body"><p>Absolutely. All our inflatables are regularly inspected, cleaned, and certified. We follow strict safety guidelines and offer age-appropriate sizes. Our team provides setup guidance and, on request, supervision during your event.</p></div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-btn">
+                <span>Can I customise a package?</span>
+                <span class="faq-icon">+</span>
+              </button>
+              <div class="faq-body"><p>Yes — every event is unique! We build custom packages based on your budget, guest count, venue, and service requirements. Simply contact us with your vision and we'll put together a tailored quote for you.</p></div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-btn">
+                <span>What payment methods do you accept?</span>
+                <span class="faq-icon">+</span>
+              </button>
+              <div class="faq-body"><p>We accept EFT bank transfers and cash payments. A deposit is required to secure your booking date. Full payment details and booking confirmation are provided upon enquiry.</p></div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════
+       FOOTER
+  ══════════════════════════════════ -->
+  <footer class="bg-black border-t border-white/5 py-12">
+    <div class="container mx-auto px-6 md:px-12">
+      <div class="flex flex-col md:flex-row justify-between items-start gap-8 mb-10">
+
+        <div class="max-w-xs">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-red-600 to-red-900 flex items-center justify-center font-display text-lg text-white">S</div>
+            <div>
+              <div class="font-display text-lg tracking-widest text-white">SIPHOKAZI'S</div>
+              <div class="text-xs text-red-400 tracking-[.3em] -mt-1">FUN & GAMES PTY LTD</div>
+            </div>
+          </div>
+          <p class="text-white/30 text-sm leading-relaxed">Safety, Joy, Excellence — registered in Olifantshoek, Northern Cape.</p>
+        </div>
+
+        <div class="grid grid-cols-2 gap-10">
+          <div>
+            <div class="section-label text-white/30 mb-4">Services</div>
+            <ul class="space-y-2 text-sm text-white/50">
+              <li class="hover:text-white transition-colors cursor-pointer">Jumping Castles</li>
+              <li class="hover:text-white transition-colors cursor-pointer">Party Tents</li>
+              <li class="hover:text-white transition-colors cursor-pointer">Swimming Pools</li>
+              <li class="hover:text-white transition-colors cursor-pointer">Chairs &amp; Tables</li>
+              <li class="hover:text-white transition-colors cursor-pointer">Décor &amp; Catering</li>
+            </ul>
+          </div>
+          <div>
+            <div class="section-label text-white/30 mb-4">Company</div>
+            <ul class="space-y-2 text-sm text-white/50">
+              <li><a href="index.html" class="hover:text-white transition-colors">Home</a></li>
+              <li><a href="about.html" class="hover:text-white transition-colors">About Us</a></li>
+              <li><a href="services.html" class="hover:text-white transition-colors">Services</a></li>
+              <li><a href="#" class="hover:text-white transition-colors">Gallery</a></li>
+              <li><a href="contact.html" class="text-white">Contact</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div>
+          <div class="section-label text-white/30 mb-4">Find Us</div>
+          <div class="flex gap-3 mb-6">
+            <a href="#" class="w-10 h-10 glass rounded-xl flex items-center justify-center text-white/50 hover:text-white transition-all text-sm font-bold">f</a>
+            <a href="#" class="w-10 h-10 glass rounded-xl flex items-center justify-center text-white/50 hover:text-white transition-all">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            </a>
+            <a href="#" class="w-10 h-10 glass rounded-xl flex items-center justify-center text-white/50 hover:text-white transition-all">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            </a>
+          </div>
+          <div class="text-white/30 text-sm space-y-1">
+            <div>📍 Olifantshoek, Northern Cape</div>
+            <div>🇿🇦 South Africa</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="color-line rounded-full mb-6"></div>
+      <div class="flex flex-col md:flex-row justify-between items-center gap-3 text-xs text-white/20">
+        <span>© 2025 SIPHOKAZIS FUN GAMES PTY LTD — Safety, Joy, Excellence.</span>
+        <span>Olifantshoek · Northern Cape · South Africa</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ── Custom Cursor ──
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursor-ring');
+    let cx = 0, cy = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => { cx = e.clientX; cy = e.clientY; cursor.style.left = cx+'px'; cursor.style.top = cy+'px'; });
+    function animateRing() { rx += (cx-rx)*.12; ry += (cy-ry)*.12; ring.style.left = rx+'px'; ring.style.top = ry+'px'; requestAnimationFrame(animateRing); }
+    animateRing();
+    document.querySelectorAll('a, button').forEach(el => {
+      el.addEventListener('mouseenter', () => { cursor.style.width='22px'; cursor.style.height='22px'; ring.style.width='52px'; ring.style.height='52px'; });
+      el.addEventListener('mouseleave', () => { cursor.style.width='14px'; cursor.style.height='14px'; ring.style.width='38px'; ring.style.height='38px'; });
+    });
+
+    // ── Navbar scroll ──
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 60));
+
+    // ── Mobile Menu ──
+    const menuBtn = document.getElementById('menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const m1=document.getElementById('m1'), m2=document.getElementById('m2'), m3=document.getElementById('m3');
+    let menuOpen = false;
+    menuBtn.addEventListener('click', () => {
+      menuOpen = !menuOpen;
+      mobileMenu.style.transform = menuOpen ? 'translateX(0)' : 'translateX(100%)';
+      m1.style.transform = menuOpen ? 'rotate(45deg) translate(4px,4px)' : '';
+      m2.style.opacity = menuOpen ? '0' : '1';
+      m3.style.transform = menuOpen ? 'rotate(-45deg) translate(4px,-4px)' : '';
+      m3.style.width = menuOpen ? '20px' : '12px';
+    });
+    document.querySelectorAll('.mobile-link').forEach(l => l.addEventListener('click', () => {
+      menuOpen = false; mobileMenu.style.transform = 'translateX(100%)';
+    }));
+
+    // ── Scroll Reveal ──
+    const allReveals = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+    }, { threshold: 0.08 });
+    allReveals.forEach(r => obs.observe(r));
+
+    // ── Smooth scroll ──
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', function(e) {
+        const href = this.getAttribute('href');
+        if (href === '#' || !href) return;
+        const target = document.querySelector(href);
+        if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      });
+    });
+
+    // ── Package chip selection ──
+    document.querySelectorAll('.pkg-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        document.querySelectorAll('.pkg-chip').forEach(c => {
+          c.style.borderColor = '';
+          c.style.background = 'rgba(255,255,255,.06)';
+          c.style.color = 'rgba(255,255,255,.7)';
+        });
+        chip.style.borderColor = 'rgba(220,31,46,.7)';
+        chip.style.background = 'rgba(220,31,46,.15)';
+        chip.style.color = 'white';
+        document.getElementById('pkg-selected').value = chip.dataset.val;
+      });
+    });
+
+    // ── Form label: fix for select/date ──
+    document.querySelectorAll('select.form-input').forEach(sel => {
+      sel.addEventListener('change', () => {
+        const label = sel.nextElementSibling;
+        if (label && label.classList.contains('form-label')) {
+          label.style.transform = sel.value ? 'translateY(-28px) scale(0.8)' : '';
+          label.style.color = sel.value ? 'rgba(220,31,46,.9)' : 'rgba(255,255,255,.35)';
+        }
+      });
+    });
+
+    // ── Form submit (demo) ──
+    const form = document.getElementById('contact-form');
+    const submitBtn = document.getElementById('submit-btn');
+    const btnText = document.getElementById('btn-text');
+    const btnArrow = document.getElementById('btn-arrow');
+    const btnSpinner = document.getElementById('btn-spinner');
+    const toast = document.getElementById('toast');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      // Show loading
+      btnText.textContent = 'Sending...';
+      btnArrow.classList.add('hidden');
+      btnSpinner.classList.remove('hidden');
+      submitBtn.disabled = true;
+
+      // Simulate async send
+      setTimeout(() => {
+        btnText.textContent = '✓ Message Sent!';
+        btnSpinner.classList.add('hidden');
+        // Show toast
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 4000);
+        // Reset after delay
+        setTimeout(() => {
+          form.reset();
+          btnText.textContent = 'Send Booking Enquiry';
+          btnArrow.classList.remove('hidden');
+          submitBtn.disabled = false;
+          // Reset label positions
+          document.querySelectorAll('.form-label').forEach(l => {
+            l.style.transform = '';
+            l.style.color = '';
+          });
+          // Reset chips
+          document.querySelectorAll('.pkg-chip').forEach(c => {
+            c.style.borderColor = '';
+            c.style.background = 'rgba(255,255,255,.06)';
+            c.style.color = 'rgba(255,255,255,.7)';
+          });
+        }, 3000);
+      }, 1800);
+    });
+
+    // ── FAQ Accordion ──
+    document.querySelectorAll('.faq-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.parentElement;
+        const isOpen = item.classList.contains('open');
+        // Close all
+        document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+        // Toggle current
+        if (!isOpen) item.classList.add('open');
+      });
+    });
+  </script>
+</body>
+</html>

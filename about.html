@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>About Us | Siphokazi's Fun & Games</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['Bebas Neue', 'Impact', 'sans-serif'],
+            heading: ['DM Serif Display', 'Georgia', 'serif'],
+            body: ['Outfit', 'system-ui', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    :root {
+      --red: #DC1F2E;
+      --red-light: #FF4D5A;
+      --blue: #1A3FA8;
+      --blue-light: #3D63E0;
+      --navy: #050E2D;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Outfit', system-ui, sans-serif;
+      background: var(--navy);
+      color: white;
+      overflow-x: hidden;
+    }
+
+    /* ── Cursor ── */
+    body { cursor: none; }
+    #cursor {
+      width: 14px; height: 14px;
+      background: var(--red);
+      border-radius: 50%;
+      position: fixed; top: 0; left: 0;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: width .2s, height .2s, background .2s;
+      mix-blend-mode: screen;
+    }
+    #cursor-ring {
+      width: 38px; height: 38px;
+      border: 2px solid rgba(220,31,46,.5);
+      border-radius: 50%;
+      position: fixed; top: 0; left: 0;
+      pointer-events: none; z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: width .25s, height .25s, border-color .2s;
+    }
+    @media (max-width: 640px) {
+      body { cursor: auto; }
+      #cursor, #cursor-ring { display: none; }
+    }
+
+    /* ── Glass ── */
+    .glass {
+      background: rgba(255,255,255,.06);
+      backdrop-filter: blur(20px) saturate(1.5);
+      -webkit-backdrop-filter: blur(20px) saturate(1.5);
+      border: 1px solid rgba(255,255,255,.12);
+    }
+    .glass-dark {
+      background: rgba(5,14,45,.65);
+      backdrop-filter: blur(24px) saturate(1.8);
+      -webkit-backdrop-filter: blur(24px) saturate(1.8);
+      border: 1px solid rgba(255,255,255,.08);
+    }
+    .glass-card {
+      background: rgba(255,255,255,.04);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,.1);
+      transition: all .45s cubic-bezier(.23,1,.32,1);
+    }
+    .glass-card:hover {
+      background: rgba(255,255,255,.09);
+      border-color: rgba(220,31,46,.5);
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 30px 60px rgba(220,31,46,.2), 0 0 0 1px rgba(220,31,46,.2);
+    }
+    .glass-card-blue:hover {
+      background: rgba(255,255,255,.09);
+      border-color: rgba(26,63,168,.6);
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 30px 60px rgba(26,63,168,.25), 0 0 0 1px rgba(26,63,168,.3);
+    }
+
+    /* ── Hero BG ── */
+    .hero-bg {
+      background:
+        linear-gradient(180deg, rgba(5,14,45,.35) 0%, rgba(5,14,45,.65) 55%, rgba(5,14,45,1) 100%),
+        linear-gradient(135deg, rgba(220,31,46,.2) 0%, transparent 55%),
+        url('https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=1800&q=80') center/cover no-repeat;
+      min-height: 90vh;
+    }
+
+    /* ── Story BG ── */
+    .story-bg {
+      background:
+        linear-gradient(135deg, rgba(5,14,45,.95) 0%, rgba(26,63,168,.18) 100%),
+        url('https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=1400&q=80') center/cover;
+    }
+
+    /* ── CTA BG ── */
+    .cta-bg {
+      background:
+        linear-gradient(135deg, rgba(220,31,46,.82) 0%, rgba(26,63,168,.82) 100%),
+        url('https://images.unsplash.com/photo-1527529482837-4698179dc6ce?w=1600&q=80') center/cover;
+    }
+
+    /* ── Nav ── */
+    nav { transition: all .4s ease; }
+    nav.scrolled {
+      background: rgba(5,14,45,.92) !important;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 4px 30px rgba(0,0,0,.4);
+    }
+
+    /* ── Typography ── */
+    .hero-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(4rem, 11vw, 10rem);
+      line-height: .9;
+      letter-spacing: .02em;
+    }
+
+    /* ── Gradient text ── */
+    .grad-text {
+      background: linear-gradient(135deg, #FF4D5A 0%, #fff 40%, #3D63E0 100%);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .grad-text-red {
+      background: linear-gradient(90deg, #FF4D5A, #DC1F2E);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .grad-text-blue {
+      background: linear-gradient(90deg, #3D63E0, #1A3FA8);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+
+    /* ── Color line ── */
+    .color-line {
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--red), var(--blue), var(--red), transparent);
+    }
+
+    /* ── Section label ── */
+    .section-label {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700; font-size: .7rem;
+      letter-spacing: .3em; text-transform: uppercase;
+    }
+
+    /* ── Grid BG ── */
+    .grid-bg {
+      background-image:
+        linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+
+    /* ── Stat number ── */
+    .stat-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 4rem; line-height: 1;
+      background: linear-gradient(135deg, #FF4D5A, #3D63E0);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+
+    /* ── Value card ── */
+    .value-pill {
+      transition: all .3s ease;
+      border-left: 3px solid transparent;
+    }
+    .value-pill:hover {
+      border-left-color: var(--red);
+      background: rgba(220,31,46,.06) !important;
+      transform: translateX(6px);
+    }
+
+    /* ── Timeline ── */
+    .timeline-dot {
+      width: 14px; height: 14px;
+      background: var(--red);
+      border-radius: 50%;
+      border: 3px solid rgba(220,31,46,.3);
+      position: absolute; left: -7px; top: 6px;
+      box-shadow: 0 0 0 6px rgba(220,31,46,.1);
+    }
+    .timeline-line {
+      position: absolute; left: 0; top: 0; bottom: 0;
+      width: 1px;
+      background: linear-gradient(180deg, transparent, rgba(220,31,46,.4), rgba(26,63,168,.4), transparent);
+    }
+
+    /* ── Philosophy card ── */
+    .phil-card {
+      background: rgba(255,255,255,.04);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,.08);
+      transition: all .4s cubic-bezier(.23,1,.32,1);
+    }
+    .phil-card:hover {
+      background: rgba(255,255,255,.08);
+      border-color: rgba(220,31,46,.4);
+      transform: translateY(-6px);
+      box-shadow: 0 20px 40px rgba(220,31,46,.15);
+    }
+
+    /* ── Glow border ── */
+    .glow-border {
+      box-shadow: 0 0 0 1px rgba(220,31,46,.3), 0 0 30px rgba(220,31,46,.12);
+      transition: box-shadow .3s;
+    }
+    .glow-border:hover {
+      box-shadow: 0 0 0 1px rgba(220,31,46,.7), 0 0 50px rgba(220,31,46,.3);
+    }
+
+    /* ── Buttons ── */
+    .btn-primary {
+      background: linear-gradient(135deg, var(--red), #FF4D5A);
+      box-shadow: 0 8px 24px rgba(220,31,46,.4);
+      transition: all .3s ease;
+    }
+    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(220,31,46,.5); }
+    .btn-outline {
+      border: 2px solid rgba(255,255,255,.3);
+      transition: all .3s ease;
+      backdrop-filter: blur(10px);
+    }
+    .btn-outline:hover {
+      border-color: white;
+      background: rgba(255,255,255,.1);
+      transform: translateY(-3px);
+    }
+
+    /* ── Floating badges ── */
+    .float-badge { animation: floatBadge 4s ease-in-out infinite; }
+    .float-badge:nth-child(2) { animation-delay: 1.4s; }
+    .float-badge:nth-child(3) { animation-delay: 2.8s; }
+    @keyframes floatBadge {
+      0%,100% { transform: translateY(0) rotate(-2deg); }
+      50% { transform: translateY(-14px) rotate(2deg); }
+    }
+
+    /* ── Scroll reveal ── */
+    .reveal { opacity: 0; transform: translateY(40px); transition: opacity .8s ease, transform .8s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-left { opacity: 0; transform: translateX(-40px); transition: opacity .8s ease, transform .8s ease; }
+    .reveal-left.visible { opacity: 1; transform: translateX(0); }
+    .reveal-right { opacity: 0; transform: translateX(40px); transition: opacity .8s ease, transform .8s ease; }
+    .reveal-right.visible { opacity: 1; transform: translateX(0); }
+    .d1 { transition-delay: .1s; } .d2 { transition-delay: .2s; }
+    .d3 { transition-delay: .3s; } .d4 { transition-delay: .4s; }
+    .d5 { transition-delay: .5s; } .d6 { transition-delay: .6s; }
+
+    /* ── Mobile menu ── */
+    #mobile-menu { transition: transform .5s cubic-bezier(.23,1,.32,1); }
+
+    /* ── Pulse ring on team avatar ── */
+    .avatar-ring {
+      animation: pulseRing 2.5s ease-in-out infinite;
+    }
+    @keyframes pulseRing {
+      0%,100% { box-shadow: 0 0 0 0 rgba(220,31,46,.4); }
+      50% { box-shadow: 0 0 0 12px rgba(220,31,46,0); }
+    }
+
+    /* ── Scrollbar ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--navy); }
+    ::-webkit-scrollbar-thumb { background: var(--red); border-radius: 3px; }
+
+    /* ── Noise overlay ── */
+    .noise::after {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Cursor -->
+  <div id="cursor"></div>
+  <div id="cursor-ring"></div>
+
+  <!-- ══════════════════════════════════
+       NAVIGATION
+  ══════════════════════════════════ -->
+  <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 py-5 px-6 md:px-12 flex items-center justify-between">
+    <a href="index.html" class="flex items-center gap-3 group">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-red-500 to-red-800 flex items-center justify-center font-display text-lg text-white shadow-lg group-hover:scale-110 transition-transform">S</div>
+      <div class="leading-tight">
+        <div class="font-display text-lg tracking-widest text-white">SIPHOKAZI'S</div>
+        <div class="text-xs text-red-400 tracking-[.3em] -mt-1">FUN & GAMES</div>
+      </div>
+    </a>
+
+    <ul class="hidden md:flex items-center gap-8 text-sm font-medium text-white/70">
+      <li><a href="index.html" class="hover:text-white transition-colors relative group">Home<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-red-500 group-hover:w-full transition-all duration-300"></span></a></li>
+      <li><a href="about.html" class="text-white relative">About<span class="absolute -bottom-1 left-0 w-full h-0.5 bg-red-500"></span></a></li>
+      <li><a href="services.html" class="hover:text-white transition-colors relative group">Services<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-red-500 group-hover:w-full transition-all duration-300"></span></a></li>
+      <li><a href="contact.html" class="hover:text-white transition-colors relative group">Contact<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-red-500 group-hover:w-full transition-all duration-300"></span></a></li>
+    </ul>
+
+    <a href="#contact" class="btn-primary hidden md:inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-white font-semibold text-sm">
+      Book Now
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+    </a>
+
+    <button id="menu-btn" class="md:hidden w-10 h-10 glass rounded-xl flex flex-col items-center justify-center gap-1.5 p-2">
+      <span class="w-5 h-0.5 bg-white transition-all origin-center" id="m1"></span>
+      <span class="w-5 h-0.5 bg-white transition-all" id="m2"></span>
+      <span class="w-3 h-0.5 bg-white transition-all ml-auto origin-center" id="m3"></span>
+    </button>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="fixed inset-0 z-40 glass-dark flex flex-col items-center justify-center gap-8 text-2xl font-display tracking-widest translate-x-full">
+    <a href="index.html" class="mobile-link hover:text-red-400 transition-colors">Home</a>
+    <a href="about.html" class="mobile-link text-red-400">About</a>
+    <a href="services.html" class="mobile-link hover:text-red-400 transition-colors">Services</a>
+    <a href="contact.html" class="mobile-link hover:text-red-400 transition-colors">Contact</a>
+    <a href="contact.html" class="btn-primary px-8 py-3 rounded-full text-white font-body text-base font-semibold mt-4">Book Now →</a>
+  </div>
+
+  <!-- ══════════════════════════════════
+       HERO
+  ══════════════════════════════════ -->
+  <section class="hero-bg relative flex flex-col justify-end pb-20 md:pb-28 noise">
+    <div class="absolute inset-0 bg-gradient-to-br from-navy via-transparent to-transparent opacity-80 pointer-events-none"></div>
+    <div class="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-transparent via-red-600 to-transparent opacity-60 pointer-events-none"></div>
+
+    <!-- Floating badges -->
+    <div class="absolute top-1/3 right-6 md:right-24 flex flex-col gap-4 pointer-events-none z-10">
+      <div class="float-badge glass rounded-2xl px-4 py-3 text-center">
+        <div class="text-2xl mb-1">🏆</div>
+        <div class="text-xs font-bold text-white/90 tracking-widest">EST. 2024</div>
+      </div>
+      <div class="float-badge glass rounded-2xl px-4 py-3 text-center">
+        <div class="text-2xl mb-1">📍</div>
+        <div class="text-xs font-bold text-white/90 tracking-widest">OLIF'HOEK</div>
+      </div>
+      <div class="float-badge glass rounded-2xl px-4 py-3 text-center">
+        <div class="text-2xl mb-1">🇿🇦</div>
+        <div class="text-xs font-bold text-white/90 tracking-widest">SA</div>
+      </div>
+    </div>
+
+    <div class="relative z-10 container mx-auto px-6 md:px-12">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-8 h-px bg-red-500"></div>
+        <span class="section-label text-red-400">Our Story · Our People · Our Purpose</span>
+      </div>
+
+      <h1 class="hero-title text-white mb-6">
+        <span class="block text-white/40 text-3xl md:text-4xl font-display tracking-[.4em] mb-2">WHO WE ARE</span>
+        <span class="block grad-text">ABOUT</span>
+        <span class="block text-white" style="text-shadow:2px 2px 0 rgba(220,31,46,.4)">SIPHOKAZI'S</span>
+      </h1>
+
+      <p class="font-heading italic text-white/70 mb-10 max-w-xl text-xl md:text-2xl">
+        Creating joyful memories, one bounce, one celebration at a time — proudly rooted in Olifantshoek, Northern Cape.
+      </p>
+
+      <div class="flex flex-wrap gap-5">
+        <div class="glass rounded-2xl px-6 py-4 glow-border">
+          <div class="stat-num">500+</div>
+          <div class="text-xs text-white/60 tracking-widest uppercase mt-1">Happy Events</div>
+        </div>
+        <div class="glass rounded-2xl px-6 py-4">
+          <div class="stat-num">6+</div>
+          <div class="text-xs text-white/60 tracking-widest uppercase mt-1">Services</div>
+        </div>
+        <div class="glass rounded-2xl px-6 py-4">
+          <div class="stat-num">100<span class="text-3xl">%</span></div>
+          <div class="text-xs text-white/60 tracking-widest uppercase mt-1">Safety First</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-10 animate-bounce">
+      <div class="text-xs text-white/40 tracking-widest">SCROLL</div>
+      <div class="w-px h-8 bg-gradient-to-b from-white/40 to-transparent"></div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════
+       OUR STORY
+  ══════════════════════════════════ -->
+  <section class="story-bg py-24 md:py-32 relative">
+    <div class="absolute inset-0 bg-gradient-to-r from-navy to-navy/80 pointer-events-none"></div>
+    <div class="container mx-auto px-6 md:px-12 relative z-10">
+
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+
+        <!-- Left: Story text -->
+        <div class="reveal-left">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="w-8 h-px bg-red-500"></div>
+            <span class="section-label text-red-400">Our Journey</span>
+          </div>
+          <h2 class="font-display text-5xl md:text-6xl tracking-wider text-white mb-8 leading-none">
+            BRINGING JOY<br><span class="grad-text">SINCE DAY ONE</span>
+          </h2>
+
+          <!-- Timeline -->
+          <div class="relative pl-8 space-y-8 mt-10">
+            <div class="timeline-line"></div>
+
+            <div class="relative">
+              <div class="timeline-dot"></div>
+              <h4 class="font-display text-lg tracking-wider text-white mb-1">THE BEGINNING — 2024</h4>
+              <p class="text-white/55 text-sm leading-relaxed">Siphokazi's Fun Games Pty Ltd was born from a simple belief: every child deserves a moment of pure happiness, and every event deserves to be unforgettable.</p>
+            </div>
+
+            <div class="relative">
+              <div class="timeline-dot" style="background: var(--blue)"></div>
+              <h4 class="font-display text-lg tracking-wider text-white mb-1">GROWING THE FLEET</h4>
+              <p class="text-white/55 text-sm leading-relaxed">What started as a passion for bouncy castles and creative décor grew into a comprehensive event rental service — tents, pools, chairs, tables, and full catering.</p>
+            </div>
+
+            <div class="relative">
+              <div class="timeline-dot" style="background: linear-gradient(135deg, var(--red), var(--blue))"></div>
+              <h4 class="font-display text-lg tracking-wider text-white mb-1">TRUSTED ACROSS THE NORTHERN CAPE</h4>
+              <p class="text-white/55 text-sm leading-relaxed">Today, we are a trusted name in event solutions — combining innovation with integrity to ensure every celebration reflects your vision while exceeding expectations.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Photo + floating badges -->
+        <div class="relative reveal-right">
+          <div class="rounded-3xl overflow-hidden border border-white/10 shadow-2xl" style="box-shadow: 0 40px 80px rgba(220,31,46,.15)">
+            <img src="https://images.unsplash.com/photo-1529543544282-ea669407fca3?w=800&q=80" alt="Siphokazi's Fun Games team at event" class="w-full h-96 object-cover">
+            <div class="absolute inset-0 bg-gradient-to-tr from-red-900/30 to-transparent rounded-3xl pointer-events-none"></div>
+          </div>
+
+          <!-- Floating info cards -->
+          <div class="absolute -bottom-6 -left-4 glass rounded-2xl px-5 py-4 hidden md:flex items-center gap-3 glow-border">
+            <div class="text-3xl">🎉</div>
+            <div>
+              <p class="text-xs text-white/50">Happy Families</p>
+              <p class="font-display text-xl text-white tracking-wider">500+ EVENTS</p>
+            </div>
+          </div>
+
+          <div class="absolute -top-5 -right-4 glass rounded-2xl px-5 py-4 hidden md:flex items-center gap-3">
+            <div class="text-3xl">📍</div>
+            <div>
+              <p class="text-xs text-white/50">Based In</p>
+              <p class="font-display text-base text-white tracking-wider">OLIFANTSHOEK, NC</p>
+            </div>
+          </div>
+
+          <!-- Feature tags -->
+          <div class="flex flex-wrap gap-2 mt-8">
+            <span class="glass rounded-full px-4 py-1.5 text-xs text-white/80 font-medium">✓ Certified Equipment</span>
+            <span class="glass rounded-full px-4 py-1.5 text-xs text-white/80 font-medium">✓ 5-Star Service</span>
+            <span class="glass rounded-full px-4 py-1.5 text-xs text-white/80 font-medium">✓ Olifantshoek Registered Pty Ltd</span>
+            <span class="glass rounded-full px-4 py-1.5 text-xs text-white/80 font-medium">✓ Community Loved</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════
+       MISSION & VISION
+  ══════════════════════════════════ -->
+  <section class="py-24 md:py-32 relative overflow-hidden grid-bg">
+    <div class="absolute -left-32 top-1/2 -translate-y-1/2 w-72 h-72 rounded-full pointer-events-none" style="background:radial-gradient(circle,rgba(220,31,46,.14),transparent 70%)"></div>
+    <div class="absolute -right-24 top-1/4 w-80 h-80 rounded-full pointer-events-none" style="background:radial-gradient(circle,rgba(26,63,168,.14),transparent 70%)"></div>
+
+    <div class="container mx-auto px-6 md:px-12 relative z-10">
+      <div class="text-center mb-16 reveal">
+        <div class="flex items-center justify-center gap-3 mb-4">
+          <div class="w-8 h-px bg-blue-500"></div>
+          <span class="section-label text-blue-400">Our Purpose</span>
+          <div class="w-8 h-px bg-blue-500"></div>
+        </div>
+        <h2 class="font-display text-5xl md:text-7xl tracking-wider">
+          <span class="text-white">MISSION &</span> <span class="grad-text">VISION</span>
+        </h2>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto mb-12">
+        <!-- Mission -->
+        <div class="glass-card rounded-3xl p-8 reveal d1 relative overflow-hidden group">
+          <div class="absolute top-0 right-0 w-36 h-36 rounded-full -translate-y-1/2 translate-x-1/2 group-hover:scale-150 transition-transform duration-700 pointer-events-none" style="background:rgba(220,31,46,.08)"></div>
+          <div class="w-14 h-14 rounded-2xl mb-6 flex items-center justify-center text-2xl" style="background:linear-gradient(135deg,rgba(220,31,46,.3),rgba(220,31,46,.1));border:1px solid rgba(220,31,46,.3)">🎯</div>
+          <h3 class="font-heading text-3xl text-white mb-4">Our Mission</h3>
+          <div class="w-12 h-0.5 bg-red-500 mb-5"></div>
+          <p class="text-white/60 leading-relaxed">
+            To deliver exceptional springing castle rental services, decorating services, catering, and other event solutions with a focus on <span class="text-white font-semibold">safety, quality, and customer satisfaction</span>. We aim to enhance every event with our fun and reliable services, ensuring a delightful experience for all.
+          </p>
+        </div>
+
+        <!-- Vision -->
+        <div class="glass-card glass-card-blue rounded-3xl p-8 reveal d2 relative overflow-hidden group">
+          <div class="absolute top-0 right-0 w-36 h-36 rounded-full -translate-y-1/2 translate-x-1/2 group-hover:scale-150 transition-transform duration-700 pointer-events-none" style="background:rgba(26,63,168,.1)"></div>
+          <div class="w-14 h-14 rounded-2xl mb-6 flex items-center justify-center text-2xl" style="background:linear-gradient(135deg,rgba(26,63,168,.3),rgba(26,63,168,.1));border:1px solid rgba(26,63,168,.4)">🌟</div>
+          <h3 class="font-heading text-3xl text-white mb-4">Our Vision</h3>
+          <div class="w-12 h-0.5 bg-blue-500 mb-5"></div>
+          <p class="text-white/60 leading-relaxed">
+            To be the leading provider of innovative and exciting entertainment solutions, creating <span class="text-white font-semibold">joyful memories and unforgettable experiences</span> for children and families across the region.
+          </p>
+        </div>
+      </div>
+
+      <!-- Philosophy quote -->
+      <div class="max-w-3xl mx-auto glass-dark rounded-3xl p-8 text-center reveal d3 glow-border">
+        <div class="text-5xl text-red-500/30 font-serif leading-none mb-4">"</div>
+        <p class="font-heading text-xl md:text-2xl text-white/80 italic leading-relaxed">
+          Every event, whether big or small, matters to be celebrated with enthusiasm and care.
+        </p>
+        <div class="mt-6 flex items-center justify-center gap-3">
+          <div class="w-8 h-px bg-white/20"></div>
+          <span class="text-xs text-white/40 tracking-widest uppercase">Siphokazi's Fun Games Pty Ltd</span>
+          <div class="w-8 h-px bg-white/20"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════
+       CORE VALUES
+  ══════════════════════════════════ -->
+  <section id="values" class="py-24 md:py-32 relative" style="background:linear-gradient(135deg,var(--navy) 0%,rgba(26,63,168,.15) 100%)">
+    <div class="absolute inset-0 grid-bg opacity-40 pointer-events-none"></div>
+    <div class="container mx-auto px-6 md:px-12 relative z-10">
+
+      <div class="flex flex-col md:flex-row md:items-end md:justify-between mb-16 reveal">
+        <div>
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-8 h-px bg-red-500"></div>
+            <span class="section-label text-red-400">What Drives Us</span>
+          </div>
+          <h2 class="font-display text-5xl md:text-7xl tracking-wider">
+            <span class="text-white">OUR </span><span class="grad-text">VALUES</span>
+          </h2>
+        </div>
+        <p class="text-white/40 max-w-sm mt-4 md:mt-0 text-sm">The heart of everything we do — from safety to community spirit.</p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+
+        <div class="glass-card rounded-2xl p-6 value-pill reveal d1">
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 rounded-xl flex items-center justify-center text-xl flex-shrink-0" style="background:rgba(220,31,46,.15);border:1px solid rgba(220,31,46,.3)">🛡️</div>
+            <div>
+              <h3 class="font-display text-xl tracking-wider text-white mb-2">SAFETY</h3>
+              <p class="text-white/50 text-sm leading-relaxed">We prioritize the safety of our clients and their guests by adhering to the highest standards of equipment maintenance and operation.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="glass-card rounded-2xl p-6 value-pill reveal d2">
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 rounded-xl flex items-center justify-center text-xl flex-shrink-0" style="background:rgba(26,63,168,.2);border:1px solid rgba(26,63,168,.4)">⭐</div>
+            <div>
+              <h3 class="font-display text-xl tracking-wider text-white mb-2">QUALITY</h3>
+              <p class="text-white/50 text-sm leading-relaxed">High-quality, clean, and well-maintained equipment and services that meet and exceed client expectations every single time.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="glass-card rounded-2xl p-6 value-pill reveal d3">
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 rounded-xl flex items-center justify-center text-xl flex-shrink-0" style="background:rgba(34,197,94,.15);border:1px solid rgba(34,197,94,.3)">😊</div>
+            <div>
+              <h3 class="font-display text-xl tracking-wider text-white mb-2">SATISFACTION</h3>
+              <p class="text-white/50 text-sm leading-relaxed">We strive to exceed our clients' expectations through exceptional service, attention to detail, and a genuinely positive attitude.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="glass-card rounded-2xl p-6 value-pill reveal d4">
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 rounded-xl flex items-center justify-center text-xl flex-shrink-0" style="background:rgba(168,85,247,.15);border:1px solid rgba(168,85,247,.3)">💡</div>
+            <div>
+              <h3 class="font-display text-xl tracking-wider text-white mb-2">INNOVATION</h3>
+              <p class="text-white/50 text-sm leading-relaxed">We embrace creativity and continuously seek new ways to enhance our offerings and create unique, enjoyable experiences.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="glass-card rounded-2xl p-6 value-pill reveal d5">
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 rounded-xl flex items-center justify-center text-xl flex-shrink-0" style="background:rgba(251,191,36,.15);border:1px solid rgba(251,191,36,.3)">🤝</div>
+            <div>
+              <h3 class="font-display text-xl tracking-wider text-white mb-2">INTEGRITY</h3>
+              <p class="text-white/50 text-sm leading-relaxed">We conduct our business with honesty, transparency, and professionalism, building lasting trust with every client and partner.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="glass-card rounded-2xl p-6 value-pill reveal d6">
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 rounded-xl flex items-center justify-center text-xl flex-shrink-0" style="background:rgba(99,102,241,.15);border:1px solid rgba(99,102,241,.3)">🌍</div>
+            <div>
+              <h3 class="font-display text-xl tracking-wider text-white mb-2">COMMUNITY</h3>
+              <p class="text-white/50 text-sm leading-relaxed">Proudly rooted in Olifantshoek — supporting local events and fostering community spirit in the Northern Cape and beyond.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════
+       PHILOSOPHY
+  ══════════════════════════════════ -->
+  <section id="philosophy" class="py-24 md:py-32 relative overflow-hidden">
+    <div class="absolute right-0 top-0 w-1/2 h-full pointer-events-none" style="background:linear-gradient(135deg,transparent 60%,rgba(26,63,168,.06) 100%)"></div>
+
+    <div class="container mx-auto px-6 md:px-12 relative z-10">
+      <div class="text-center mb-16 reveal">
+        <div class="flex items-center justify-center gap-3 mb-4">
+          <div class="w-8 h-px bg-red-500"></div>
+          <span class="section-label text-red-400">Guiding Philosophy</span>
+          <div class="w-8 h-px bg-red-500"></div>
+        </div>
+        <h2 class="font-display text-5xl md:text-7xl tracking-wider">
+          <span class="grad-text">OUR</span> <span class="text-white">PHILOSOPHY</span>
+        </h2>
+      </div>
+
+      <!-- Central quote -->
+      <div class="max-w-4xl mx-auto glass-dark rounded-3xl p-10 text-center mb-14 reveal glow-border">
+        <div class="text-6xl text-red-500/20 font-serif leading-none mb-4">"</div>
+        <p class="font-heading text-xl md:text-2xl text-white/80 italic leading-relaxed">
+          SIPHOKAZIS FUN GAMES PTY LTD. our philosophy centres on creating joy and lasting memories through exceptional service and attention to detail. We believe that every event, whether big or small, matters to be celebrated with enthusiasm and care.
+        </p>
+      </div>
+
+      <!-- Philosophy cards grid -->
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <div class="phil-card rounded-3xl p-8 reveal d1">
+          <div class="text-4xl mb-5">🎯</div>
+          <h3 class="font-display text-xl tracking-wider mb-1 grad-text-red">CUSTOMER-CENTRIC</h3>
+          <p class="text-xs text-white/40 tracking-widest uppercase mb-4">Excellence</p>
+          <p class="text-white/50 text-sm leading-relaxed">We prioritise our client's needs and preferences, tailoring our services to create personalised and memorable experiences. Our goal is to make every event unique and enjoyable.</p>
+        </div>
+
+        <div class="phil-card rounded-3xl p-8 reveal d2">
+          <div class="text-4xl mb-5">🔒</div>
+          <h3 class="font-display text-xl tracking-wider mb-1 grad-text-blue">COMMITMENT TO</h3>
+          <p class="text-xs text-white/40 tracking-widest uppercase mb-4">Safety</p>
+          <p class="text-white/50 text-sm leading-relaxed">We are dedicated to maintaining the highest standards of safety in all aspects of our service. Ensuring the well-being of our clients and their guests is our top priority.</p>
+        </div>
+
+        <div class="phil-card rounded-3xl p-8 reveal d3">
+          <div class="text-4xl mb-5">🏆</div>
+          <h3 class="font-display text-xl tracking-wider mb-1 text-white">QUALITY AND</h3>
+          <p class="text-xs text-white/40 tracking-widest uppercase mb-4">Reliability</p>
+          <p class="text-white/50 text-sm leading-relaxed">We believe in delivering top-quality services and products that clients can trust. You can count on us to meet your expectations and deliver a seamless guest experience.</p>
+        </div>
+
+        <div class="phil-card rounded-3xl p-8 reveal d4">
+          <div class="text-4xl mb-5">🌍</div>
+          <h3 class="font-display text-xl tracking-wider mb-1 grad-text-red">COMMUNITY</h3>
+          <p class="text-xs text-white/40 tracking-widest uppercase mb-4">Focus</p>
+          <p class="text-white/50 text-sm leading-relaxed">We value our role in the community and are committed to contributing positively through our services. We engage with local events and support community initiatives in Olifantshoek.</p>
+        </div>
+
+        <div class="phil-card rounded-3xl p-8 reveal d5">
+          <div class="text-4xl mb-5">📈</div>
+          <h3 class="font-display text-xl tracking-wider mb-1 grad-text-blue">CONTINUOUS</h3>
+          <p class="text-xs text-white/40 tracking-widest uppercase mb-4">Improvement</p>
+          <p class="text-white/50 text-sm leading-relaxed">We embrace innovation and seek to continuously improve our offerings. By staying current with trends and listening to feedback, we strive to create a better experience for our clients.</p>
+        </div>
+
+        <!-- Closing statement card -->
+        <div class="reveal d6 rounded-3xl p-8 flex flex-col justify-between relative overflow-hidden" style="background:linear-gradient(135deg,rgba(220,31,46,.2),rgba(26,63,168,.2));border:1px solid rgba(220,31,46,.2)">
+          <div class="text-6xl text-red-500/20 font-serif leading-none">"</div>
+          <p class="font-heading text-xl text-white/80 italic leading-relaxed flex-1 flex items-center py-4">
+            Our philosophy drives us to exceed expectations — ensuring that every event we touch is a celebration of happiness and success.
+          </p>
+          <div class="flex items-center gap-3 mt-4">
+            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-red-600 to-blue-700 flex items-center justify-center font-display text-sm">S</div>
+            <span class="text-xs text-white/40 tracking-widest">SIPHOKAZI'S FUN GAMES PTY LTD</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════
+       STATS / TRUST SIGNALS
+  ══════════════════════════════════ -->
+  <section class="py-20 relative" style="background:linear-gradient(135deg,rgba(5,14,45,1) 0%,rgba(26,63,168,.12) 100%)">
+    <div class="absolute inset-0 grid-bg opacity-30 pointer-events-none"></div>
+    <div class="container mx-auto px-6 md:px-12 relative z-10">
+
+      <div class="text-center mb-14 reveal">
+        <div class="flex items-center justify-center gap-3 mb-4">
+          <div class="w-8 h-px bg-red-500"></div>
+          <span class="section-label text-red-400">By the Numbers</span>
+          <div class="w-8 h-px bg-red-500"></div>
+        </div>
+        <h2 class="font-display text-4xl md:text-6xl tracking-wider">
+          <span class="text-white">TRUST &</span> <span class="grad-text">IMPACT</span>
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-5">
+        <div class="glass-card rounded-2xl p-7 text-center reveal d1">
+          <div class="text-4xl mb-4">🎪</div>
+          <div class="stat-num">500<span class="text-2xl">+</span></div>
+          <div class="text-xs text-white/50 tracking-widest uppercase mt-2">Events Delivered</div>
+          <div class="color-line mt-4 rounded-full"></div>
+        </div>
+        <div class="glass-card rounded-2xl p-7 text-center reveal d2">
+          <div class="text-4xl mb-4">🏰</div>
+          <div class="stat-num">50<span class="text-2xl">+</span></div>
+          <div class="text-xs text-white/50 tracking-widest uppercase mt-2">Jumping Castles</div>
+          <div class="color-line mt-4 rounded-full"></div>
+        </div>
+        <div class="glass-card rounded-2xl p-7 text-center reveal d3">
+          <div class="text-4xl mb-4">😊</div>
+          <div class="stat-num">100<span class="text-2xl">%</span></div>
+          <div class="text-xs text-white/50 tracking-widest uppercase mt-2">Satisfaction Focus</div>
+          <div class="color-line mt-4 rounded-full"></div>
+        </div>
+        <div class="glass-card rounded-2xl p-7 text-center reveal d4">
+          <div class="text-4xl mb-4">🤝</div>
+          <div class="stat-num">15<span class="text-2xl">+</span></div>
+          <div class="text-xs text-white/50 tracking-widest uppercase mt-2">Community Partners</div>
+          <div class="color-line mt-4 rounded-full"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════
+       SERVICES QUICK OVERVIEW
+  ══════════════════════════════════ -->
+  <section class="py-20 relative overflow-hidden">
+    <div class="container mx-auto px-6 md:px-12 relative z-10">
+      <div class="flex flex-col md:flex-row md:items-end md:justify-between mb-12 reveal">
+        <div>
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-8 h-px bg-red-500"></div>
+            <span class="section-label text-red-400">What We Offer</span>
+          </div>
+          <h2 class="font-display text-4xl md:text-6xl tracking-wider">
+            <span class="grad-text">OUR</span> <span class="text-white">SERVICES</span>
+          </h2>
+        </div>
+        <a href="#" class="btn-primary mt-6 md:mt-0 inline-flex items-center gap-2 px-6 py-3 rounded-full text-white font-semibold text-sm">
+          View All Services →
+        </a>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+        <div class="glass-card rounded-2xl p-5 text-center reveal d1 group">
+          <div class="text-4xl mb-3 group-hover:scale-125 transition-transform duration-300">🏰</div>
+          <p class="font-display text-sm tracking-wider text-white">JUMPING<br>CASTLES</p>
+        </div>
+        <div class="glass-card rounded-2xl p-5 text-center reveal d2 group">
+          <div class="text-4xl mb-3 group-hover:scale-125 transition-transform duration-300">🎪</div>
+          <p class="font-display text-sm tracking-wider text-white">PARTY<br>TENTS</p>
+        </div>
+        <div class="glass-card rounded-2xl p-5 text-center reveal d3 group">
+          <div class="text-4xl mb-3 group-hover:scale-125 transition-transform duration-300">🏊</div>
+          <p class="font-display text-sm tracking-wider text-white">SWIMMING<br>POOLS</p>
+        </div>
+        <div class="glass-card rounded-2xl p-5 text-center reveal d4 group">
+          <div class="text-4xl mb-3 group-hover:scale-125 transition-transform duration-300">🪑</div>
+          <p class="font-display text-sm tracking-wider text-white">CHAIRS &<br>TABLES</p>
+        </div>
+        <div class="glass-card rounded-2xl p-5 text-center reveal d5 group">
+          <div class="text-4xl mb-3 group-hover:scale-125 transition-transform duration-300">🎈</div>
+          <p class="font-display text-sm tracking-wider text-white">DÉCOR &<br>STYLING</p>
+        </div>
+        <div class="glass-card rounded-2xl p-5 text-center reveal d6 group">
+          <div class="text-4xl mb-3 group-hover:scale-125 transition-transform duration-300">🍔</div>
+          <p class="font-display text-sm tracking-wider text-white">CATERING<br>SERVICES</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════
+       CTA
+  ══════════════════════════════════ -->
+  <section id="contact" class="cta-bg py-24 md:py-32 relative overflow-hidden noise">
+    <div class="absolute top-0 left-0 w-96 h-96 rounded-full blur-3xl pointer-events-none" style="background:rgba(220,31,46,.3);transform:translate(-50%,-50%)"></div>
+    <div class="absolute bottom-0 right-0 w-96 h-96 rounded-full blur-3xl pointer-events-none" style="background:rgba(26,63,168,.3);transform:translate(50%,50%)"></div>
+
+    <div class="container mx-auto px-6 md:px-12 relative z-10 text-center">
+      <div class="reveal">
+        <div class="inline-flex items-center gap-2 glass rounded-full px-5 py-2 mb-8 text-sm text-white/80">
+          <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
+          Available for Bookings
+        </div>
+        <h2 class="font-display text-6xl md:text-8xl tracking-wider text-white mb-6 leading-none">
+          READY TO<br>CREATE MAGIC<br><span class="grad-text">TOGETHER?</span>
+        </h2>
+        <p class="text-white/70 text-lg max-w-xl mx-auto mb-10">
+          Let's make your next event fun, safe, and absolutely memorable — from Olifantshoek to the entire Northern Cape.
+        </p>
+        <div class="flex flex-wrap justify-center gap-5 mb-14">
+          <a href="tel:+27000000000" class="btn-primary px-10 py-4 rounded-full text-white font-bold text-base flex items-center gap-3">
+            📞 Get a Quote
+          </a>
+          <a href="#" class="btn-outline px-10 py-4 rounded-full text-white font-bold text-base flex items-center gap-3">
+            🎪 Explore Services
+          </a>
+        </div>
+        <div class="flex flex-wrap justify-center gap-3">
+          <span class="glass rounded-full px-4 py-2 text-sm text-white/80">🏰 Jumping Castles</span>
+          <span class="glass rounded-full px-4 py-2 text-sm text-white/80">🎪 Tents</span>
+          <span class="glass rounded-full px-4 py-2 text-sm text-white/80">🏊 Pools</span>
+          <span class="glass rounded-full px-4 py-2 text-sm text-white/80">🪑 Chairs &amp; Tables</span>
+          <span class="glass rounded-full px-4 py-2 text-sm text-white/80">🎈 Decor</span>
+          <span class="glass rounded-full px-4 py-2 text-sm text-white/80">🍔 Catering</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════
+       FOOTER
+  ══════════════════════════════════ -->
+  <footer class="bg-black border-t border-white/5 py-12">
+    <div class="container mx-auto px-6 md:px-12">
+      <div class="flex flex-col md:flex-row justify-between items-start gap-8 mb-10">
+
+        <div class="max-w-xs">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-red-600 to-red-900 flex items-center justify-center font-display text-lg text-white">S</div>
+            <div>
+              <div class="font-display text-lg tracking-widest text-white">SIPHOKAZI'S</div>
+              <div class="text-xs text-red-400 tracking-[.3em] -mt-1">FUN & GAMES PTY LTD</div>
+            </div>
+          </div>
+          <p class="text-white/30 text-sm leading-relaxed">Safety, Joy, Excellence — registered in Olifantshoek, Northern Cape.</p>
+        </div>
+
+        <div class="grid grid-cols-2 gap-10">
+          <div>
+            <div class="section-label text-white/30 mb-4">Services</div>
+            <ul class="space-y-2 text-sm text-white/50">
+              <li class="hover:text-white transition-colors cursor-pointer">Jumping Castles</li>
+              <li class="hover:text-white transition-colors cursor-pointer">Party Tents</li>
+              <li class="hover:text-white transition-colors cursor-pointer">Swimming Pools</li>
+              <li class="hover:text-white transition-colors cursor-pointer">Chairs &amp; Tables</li>
+              <li class="hover:text-white transition-colors cursor-pointer">Décor &amp; Catering</li>
+            </ul>
+          </div>
+          <div>
+            <div class="section-label text-white/30 mb-4">Company</div>
+            <ul class="space-y-2 text-sm text-white/50">
+              <li><a href="index.html" class="hover:text-white transition-colors">Home</a></li>
+              <li><a href="about.html" class="text-white">About Us</a></li>
+              <li><a href="#" class="hover:text-white transition-colors">Services</a></li>
+              <li><a href="#" class="hover:text-white transition-colors">Gallery</a></li>
+              <li><a href="#contact" class="hover:text-white transition-colors">Contact</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div>
+          <div class="section-label text-white/30 mb-4">Find Us</div>
+          <div class="flex gap-3 mb-6">
+            <a href="#" class="w-10 h-10 glass rounded-xl flex items-center justify-center text-white/50 hover:text-white transition-all text-sm font-bold">f</a>
+            <a href="#" class="w-10 h-10 glass rounded-xl flex items-center justify-center text-white/50 hover:text-white transition-all">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            </a>
+            <a href="#" class="w-10 h-10 glass rounded-xl flex items-center justify-center text-white/50 hover:text-white transition-all">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            </a>
+          </div>
+          <div class="text-white/30 text-sm space-y-1">
+            <div>📍 Olifantshoek, Northern Cape</div>
+            <div>🇿🇦 South Africa</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="color-line rounded-full mb-6"></div>
+      <div class="flex flex-col md:flex-row justify-between items-center gap-3 text-xs text-white/20">
+        <span>© 2025 SIPHOKAZIS FUN GAMES PTY LTD — Safety, Joy, Excellence.</span>
+        <span>Olifantshoek · Northern Cape · South Africa</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ══════════════════════════════════
+       JAVASCRIPT
+  ══════════════════════════════════ -->
+  <script>
+    // Custom Cursor
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursor-ring');
+    let cx = 0, cy = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => { cx = e.clientX; cy = e.clientY; cursor.style.left = cx + 'px'; cursor.style.top = cy + 'px'; });
+    function animateRing() { rx += (cx-rx)*.12; ry += (cy-ry)*.12; ring.style.left = rx+'px'; ring.style.top = ry+'px'; requestAnimationFrame(animateRing); }
+    animateRing();
+    document.querySelectorAll('a, button').forEach(el => {
+      el.addEventListener('mouseenter', () => { cursor.style.width = '22px'; cursor.style.height = '22px'; ring.style.width = '52px'; ring.style.height = '52px'; });
+      el.addEventListener('mouseleave', () => { cursor.style.width = '14px'; cursor.style.height = '14px'; ring.style.width = '38px'; ring.style.height = '38px'; });
+    });
+
+    // Navbar scroll
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 60));
+
+    // Mobile Menu
+    const menuBtn = document.getElementById('menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const m1 = document.getElementById('m1'), m2 = document.getElementById('m2'), m3 = document.getElementById('m3');
+    let menuOpen = false;
+    menuBtn.addEventListener('click', () => {
+      menuOpen = !menuOpen;
+      mobileMenu.style.transform = menuOpen ? 'translateX(0)' : 'translateX(100%)';
+      m1.style.transform = menuOpen ? 'rotate(45deg) translate(4px,4px)' : '';
+      m2.style.opacity = menuOpen ? '0' : '1';
+      m3.style.transform = menuOpen ? 'rotate(-45deg) translate(4px,-4px)' : '';
+      m3.style.width = menuOpen ? '20px' : '12px';
+    });
+    document.querySelectorAll('.mobile-link').forEach(l => l.addEventListener('click', () => {
+      menuOpen = false; mobileMenu.style.transform = 'translateX(100%)';
+    }));
+
+    // Scroll Reveal
+    const allReveals = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    allReveals.forEach(r => obs.observe(r));
+
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', function(e) {
+        const href = this.getAttribute('href');
+        if (href === '#' || !href) return;
+        const target = document.querySelector(href);
+        if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      });
+    });
+  </script>
+
+</body>
+</html>
